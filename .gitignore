@@ -1,0 +1,6 @@
+*.class
+*.log
+../External_Libraries/
+target/
+project/
+.idea/
