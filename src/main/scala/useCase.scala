@@ -19,13 +19,25 @@ object useCase extends App {
       acc.insert(n.toLowerCase.toList)
       )
 
+    val arnieGenerator = Source.fromFile("./src/test/resources/arnoldDialogue.txt")
+      .mkString.replaceAll("""([\p{Punct}&&[^.]]|\b\p{IsLetter}{1,3}\b)\s*""", " ").split(" ")
+      // MarkovChainMap is a markov chain that stores the chain
+      // options in a Map[C,Int]. This map is working over Chars
+      .foldLeft(new MarkovChain[String](start.toString, stop.toString))((acc1, x) =>
+      acc1.insert(List(x))
+    )
+
     // Generate a new planet name based on the corpus with a maximum length
     // of 10
-    val toFormat = planetGenerator.generate(10).mkString("")
+    //val toFormat = planetGenerator.generate(10).mkString("")
+    //println(planetGenerator.toString())
 
-    println(planetGenerator.toString())
+    //println("Meet new planet: " + toFormat)
 
-    println("Meet new planet: " + toFormat)
+    val arnieWord = arnieGenerator.generate(30).mkString("")
 
+    println(arnieGenerator.toString())
+
+    println("Arnold says: " + arnieWord)
 
 }
